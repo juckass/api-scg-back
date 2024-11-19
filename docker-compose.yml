@@ -1,0 +1,20 @@
+version: "3.1"
+services:    
+    db:
+        image: mariadb:10.5.8
+        container_name: ${DOCKER_APP_NAME}_${DOCKER_ENVIRONMENT}_db #nombre del contenedor basado en el nombre de la app y en entorno
+        environment:
+            - MYSQL_ROOT_PASSWORD=root
+        volumes:
+            - ./docker/database:/data #mondaje de ./docker/docker_dump dentro del contenedor en la carpeta /data
+            - ./docker/database/conf:/etc/mysql/conf.d #mondaje de ./docker/docker_mysql/conf dentro del contenedor en la carpeta /etc/mysql/conf.d
+            - ./docker/database/data:/var/lib/mysql #montaje de ./docker/docker_mysql/data dentro del contenedor en la carpeta /var/lib/mysql para tener data redundante
+            - ./docker/database:/docker-entrypoint-initdb.d # montaje de ./docker/docker_dump en el entry point de la imagen para ejecutar el sql, en caso de existir
+        ports:
+            - "3306:3306"
+        networks:
+            - appnet # nombre interno de la red para los servicios
+        profiles: ["${DOCKER_DB_PROFILE}"]
+networks:
+  appnet:
+    name: ${DOCKER_NETWORK_NAME}_${DOCKER_ENVIRONMENT} # nombre publico de la red para los cotenedores

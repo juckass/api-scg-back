@@ -1,15 +1,24 @@
 import { Module } from '@nestjs/common';
+import { TypeOrmModule } from '@nestjs/typeorm';
 import { ConfigModule } from '@nestjs/config';
+import { DatabaseService } from './services/database.service';
 import { LoggerService } from './services/logger.service';
 import { LoggingInterceptor } from './interceptors/logging.interceptor';
 import { FileService } from './services/file.service'; // Importar el FileService
 import { APP_INTERCEPTOR } from '@nestjs/core';
 
 @Module({
-  imports: [ConfigModule],
+  imports: [
+    ConfigModule.forRoot({
+      isGlobal: true, // Hace que las variables de entorno estén disponibles globalmente
+    }),
+    TypeOrmModule.forRootAsync({
+      useClass: DatabaseService, // Usamos el servicio para obtener la configuración
+    }),
+  ],
   providers: [
     LoggerService,
-    FileService,  // Agregar FileService a los proveedores
+    FileService, // Agregar FileService a los proveedores
     {
       provide: APP_INTERCEPTOR,
       useClass: LoggingInterceptor,
