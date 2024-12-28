@@ -14,7 +14,7 @@ export class DatabaseService implements TypeOrmOptionsFactory {
       port: this.configService.get<number>('DB_PORT', 3306),
       username: this.configService.get<string>('DB_USERNAME', 'root'),
       password: this.configService.get<string>('DB_PASSWORD', ''),
-      database: this.configService.get<string>('DB_NAME', 'test'),
+      database: this.configService.get<string>('DB_DATABASE', 'test'),
       entities: [__dirname + '/../**/*.entity{.ts,.js}'], // Dirección de tus entidades
       migrations: [
         path.join(__dirname, '../**/migrations/*{.ts,.js}'), // Detecta todas las migraciones en todos los módulos
