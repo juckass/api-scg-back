@@ -12,9 +12,11 @@ services:
             - ./docker/database:/docker-entrypoint-initdb.d # montaje de ./docker/docker_dump en el entry point de la imagen para ejecutar el sql, en caso de existir
         ports:
             - "3306:3306"
+        expose:
+            - "3306:3306"
         networks:
             - appnet # nombre interno de la red para los servicios
-        profiles: ["${DOCKER_DB_PROFILE}"]
+        #profiles: ["${DOCKER_DB_PROFILE}"]
 networks:
   appnet:
     name: ${DOCKER_NETWORK_NAME}_${DOCKER_ENVIRONMENT} # nombre publico de la red para los cotenedores

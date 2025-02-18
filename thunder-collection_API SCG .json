@@ -1,0 +1,113 @@
+{
+    "clientName": "Thunder Client",
+    "collectionName": "API SCG ",
+    "collectionId": "8ef783d2-11b1-4467-825a-de166f3e0d7f",
+    "dateExported": "2025-02-18T01:04:11.359Z",
+    "version": "1.2",
+    "folders": [
+        {
+            "_id": "e9d83ac7-4225-4d51-a399-e04df1df796d",
+            "name": "Users",
+            "containerId": "",
+            "created": "2025-02-17T22:56:12.045Z",
+            "sortNum": 10000
+        }
+    ],
+    "requests": [
+        {
+            "_id": "9f80ed7b-914a-49b4-a32a-9183119b27fd",
+            "colId": "8ef783d2-11b1-4467-825a-de166f3e0d7f",
+            "containerId": "e9d83ac7-4225-4d51-a399-e04df1df796d",
+            "name": "Get Users",
+            "url": "http://localhost:3000/users",
+            "method": "GET",
+            "sortNum": 20000,
+            "created": "2025-02-17T22:56:26.017Z",
+            "modified": "2025-02-17T22:56:50.670Z",
+            "headers": []
+        },
+        {
+            "_id": "9460d635-ec98-4d50-962c-7a3bcb398db2",
+            "colId": "8ef783d2-11b1-4467-825a-de166f3e0d7f",
+            "containerId": "e9d83ac7-4225-4d51-a399-e04df1df796d",
+            "name": "Post Users",
+            "url": "http://localhost:3000/users",
+            "method": "POST",
+            "sortNum": 30000,
+            "created": "2025-02-17T23:03:35.248Z",
+            "modified": "2025-02-18T00:54:52.509Z",
+            "headers": [],
+            "body": {
+                "type": "json",
+                "raw": "{\n  \"name\": \"prueba\",\n  \"password\":\"123456\",\n  \"email\" : \"correo22@correo.com\"\n}",
+                "form": []
+            }
+        },
+        {
+            "_id": "bdf94151-9b4c-4951-a197-365ea9f3fca9",
+            "colId": "8ef783d2-11b1-4467-825a-de166f3e0d7f",
+            "containerId": "e9d83ac7-4225-4d51-a399-e04df1df796d",
+            "name": "Get User by ID",
+            "url": "http://localhost:3000/users/64629154-61d0-49c1-9079-49782d2fc6ef",
+            "method": "GET",
+            "sortNum": 30000,
+            "created": "2025-02-17T23:26:52.346Z",
+            "modified": "2025-02-17T23:27:55.870Z",
+            "headers": []
+        },
+        {
+            "_id": "e96466f2-fbf2-41c6-b727-393dce54b846",
+            "colId": "8ef783d2-11b1-4467-825a-de166f3e0d7f",
+            "containerId": "e9d83ac7-4225-4d51-a399-e04df1df796d",
+            "name": "Get Users deleted",
+            "url": "http://localhost:3000/users/deleted",
+            "method": "GET",
+            "sortNum": 30000,
+            "created": "2025-02-17T23:50:01.911Z",
+            "modified": "2025-02-17T23:50:41.984Z",
+            "headers": []
+        },
+        {
+            "_id": "e7259d67-5fbd-49ea-9ed0-06d851d01e8c",
+            "colId": "8ef783d2-11b1-4467-825a-de166f3e0d7f",
+            "containerId": "e9d83ac7-4225-4d51-a399-e04df1df796d",
+            "name": "Patch Users ",
+            "url": "http://localhost:3000/users/64629154-61d0-49c1-9079-49782d2fc6ef",
+            "method": "PATCH",
+            "sortNum": 40000,
+            "created": "2025-02-17T23:31:56.713Z",
+            "modified": "2025-02-18T00:55:01.588Z",
+            "headers": [],
+            "body": {
+                "type": "json",
+                "raw": "{\n  \"name\": \"prueba55\"\n}",
+                "form": []
+            }
+        },
+        {
+            "_id": "f0444d31-e2b5-4bf9-a46e-b2bd11501991",
+            "colId": "8ef783d2-11b1-4467-825a-de166f3e0d7f",
+            "containerId": "e9d83ac7-4225-4d51-a399-e04df1df796d",
+            "name": "Patch Users restore",
+            "url": "http://localhost:3000/users/64629154-61d0-49c1-9079-49782d2fc6ef/restore",
+            "method": "PATCH",
+            "sortNum": 45000,
+            "created": "2025-02-17T23:58:41.632Z",
+            "modified": "2025-02-17T23:59:15.533Z",
+            "headers": []
+        },
+        {
+            "_id": "b2f7e258-2955-423d-9d58-cee3b87793ff",
+            "colId": "8ef783d2-11b1-4467-825a-de166f3e0d7f",
+            "containerId": "e9d83ac7-4225-4d51-a399-e04df1df796d",
+            "name": "Delete Users ",
+            "url": "http://localhost:3000/users/64629154-61d0-49c1-9079-49782d2fc6ef",
+            "method": "DELETE",
+            "sortNum": 50000,
+            "created": "2025-02-17T23:45:42.091Z",
+            "modified": "2025-02-17T23:46:37.778Z",
+            "headers": []
+        }
+    ],
+    "ref": "Iea7CEhTeNUmsgX8tibi9kSeFzLp0wHto6pxcQz2kyjsxWZ18o6fUCfAiBWXPVDZortYRBsg7uSMsbLnVgKtfA"
+}

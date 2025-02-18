@@ -1,10 +1,10 @@
 import { Module } from '@nestjs/common';
 import { APP_FILTER } from '@nestjs/core';
-import { AppController } from './app.controller';
-import { AppService } from './app.service';
 import { HttpExceptionFilter } from './filters/http-exception.filter'; // Ruta correcta
 import { GlobalModule } from './global/global.module';
 import { ConfigModule } from '@nestjs/config';
+import { PrismaModule } from './prisma/prisma.module';
+import { UsersModule } from './users/users.module';
 
 @Module({
   imports: [
@@ -12,10 +12,11 @@ import { ConfigModule } from '@nestjs/config';
       isGlobal: true, // Hace que las variables estén disponibles globalmente
     }),
     GlobalModule,
+    PrismaModule,
+    UsersModule,
   ],
-  controllers: [AppController],
+  controllers: [],
   providers: [
-    AppService,
     {
       provide: APP_FILTER,
       useClass: HttpExceptionFilter,
