@@ -1,10 +1,11 @@
 import { Injectable } from '@nestjs/common';
-import { PrismaService } from 'src/prisma/prisma.service';
-import { LoggerService } from 'src/global/services/logger.service';
+import { PrismaService } from '../../prisma/prisma.service';
+import { LoggerService } from '../../global/services/logger.service';
 import { CreateUserDto } from '../dto/create-user.dto';
 import { hash } from 'bcrypt';
 import { User } from '@prisma/client';
 import { removePassword } from '../utils/functions';
+
 
 @Injectable()
 export class UserCreationService {
@@ -16,7 +17,7 @@ export class UserCreationService {
   async create(createUserDto: CreateUserDto): Promise<User | { error: string }> {
     const { password } = createUserDto;
     const plainTextPassword = await hash(password, 10);
-    createUserDto = { ...createUserDto, password: plainTextPassword };
+    createUserDto = { ...createUserDto, password: plainTextPassword};
     const user = await this.prisma.user.create({ data: createUserDto });
 
     if (!user) {
@@ -26,5 +27,4 @@ export class UserCreationService {
 
     return removePassword(user);
   }
-  
 }

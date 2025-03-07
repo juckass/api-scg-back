@@ -7,35 +7,22 @@ export class LoggerService {
   private readonly logger = new Logger(LoggerService.name);
   private readonly loggingEnabled: boolean;
   private readonly errorLoggingEnabled: boolean;
-  private readonly logLevel: LogLevel[];
+  private readonly logLevel: string[];
   private readonly fileLoggingEnabled: boolean;
   private readonly logToFileOnlyErrors: boolean;
 
   constructor(
-    private configService: ConfigService,
-    private fileService: FileService,
+    private readonly configService: ConfigService,
+    private readonly fileService: FileService,
   ) {
-    // Leer las configuraciones desde el archivo .env
-    this.loggingEnabled = this.configService.get<boolean>(
-      'LOGGING_ENABLED',
-      true,
-    );
-    this.errorLoggingEnabled = this.configService.get<boolean>(
-      'ERROR_LOGGING_ENABLED',
-      true,
-    );
-    this.logLevel = (
-      this.configService.get<string>('LOG_LEVEL', 'log,debug,warn,error') ||
-      'log,debug,warn,error'
-    ).split(',') as LogLevel[];
-    this.fileLoggingEnabled = this.configService.get<boolean>(
-      'FILE_LOGGING_ENABLED',
-      true,
-    );
-    this.logToFileOnlyErrors =
-      this.configService
-        .get<string>('LOG_TO_FILE_ONLY_ERRORS', 'false')
-        .toLowerCase() === 'true';
+    this.loggingEnabled = this.configService.get<boolean>('LOGGING_ENABLED', true);
+    this.errorLoggingEnabled = this.configService.get<boolean>('ERROR_LOGGING_ENABLED', true);
+    this.logLevel = this.configService.get<string>('LOG_LEVEL', 'log,debug,warn,error').split(',');
+    this.fileLoggingEnabled = this.configService.get<boolean>('FILE_LOGGING_ENABLED', true);
+    
+    // Manejar el valor como string y convertirlo a booleano
+    const logToFileOnlyErrors = this.configService.get<string>('LOG_TO_FILE_ONLY_ERRORS', 'false');
+    this.logToFileOnlyErrors = logToFileOnlyErrors?.toLowerCase() === 'true';
   }
 
   log(message: string) {

@@ -1,8 +1,8 @@
 import { Module } from '@nestjs/common';
 
 import { UsersController } from './users.controller';
-import { GlobalModule } from 'src/global/global.module';
-import { PrismaModule } from 'src/prisma/prisma.module';
+import { GlobalModule } from '../global/global.module';
+import { PrismaModule } from '../prisma/prisma.module';
 import { UserCreationService } from './services/user-creation.service';
 import { UserRetrievalService } from './services/user-retrieval.service';
 import { UserUpdateService } from './services/user-update.service';

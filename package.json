@@ -78,6 +78,14 @@
       "**/*.(t|j)s"
     ],
     "coverageDirectory": "../coverage",
-    "testEnvironment": "node"
+    "testEnvironment": "node",
+    "coveragePathIgnorePatterns": [
+      "/node_modules/",
+      "/dist/",
+      "/src/prisma",
+      "/src/app.module.ts",
+      "/src/main.ts",
+      "/src/test-setup.ts"
+    ]
   }
 }

@@ -1,9 +1,9 @@
 import { Injectable } from '@nestjs/common';
-import { PrismaService } from 'src/prisma/prisma.service';
-import { LoggerService } from 'src/global/services/logger.service';
-import { PaginationService } from 'src/global/services/pagination.service';
-import { PaginationParams } from 'src/global/interfaces/pagination-params.interface';
-import { PaginationResult } from 'src/global/interfaces/pagination-result.interface';
+import { PrismaService } from '../../prisma/prisma.service';
+import { LoggerService } from '../../global/services/logger.service';
+import { PaginationService } from '../../global/services/pagination.service';
+import { PaginationParams } from '../../global/interfaces/pagination-params.interface';
+import { PaginationResult } from '../../global/interfaces/pagination-result.interface';
 import { User } from '@prisma/client';
 
 import { removePassword } from '../utils/functions';

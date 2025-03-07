@@ -14,7 +14,6 @@ export class PrismaService  extends  PrismaClient implements OnModuleInit{
             await this.$connect();
         } catch (error) {         
             this.logger.error('Error initializing Prisma client', error);
-            
         }
        
     }
@@ -24,7 +23,6 @@ export class PrismaService  extends  PrismaClient implements OnModuleInit{
             await this.$disconnect();    
         } catch (error) {
             this.logger.error('Error disconnecting Prisma client', error);
-            
         }
     }
 }
