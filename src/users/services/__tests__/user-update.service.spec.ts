@@ -3,6 +3,7 @@ import { UserUpdateService } from '../user-update.service';
 import { PrismaService } from '../../../prisma/prisma.service';
 import { UpdateUserDto } from '../../dto/update-user.dto';
 import { User } from '@prisma/client';
+import { Role } from '../../enums/role.enum';
 
 describe('UserUpdateService', () => {
   let service: UserUpdateService;
@@ -43,13 +44,14 @@ describe('UserUpdateService', () => {
       };
 
       const mockUser: User = {
-        id: userId,
-        name: 'John',
-      
-        email: 'john.doe@example.com',
-        password: 'hashedPassword',
-        fechaRegistro: new Date(),
-        deletedAt: null,
+          id: userId,
+          name: 'John',
+
+          email: 'john.doe@example.com',
+          password: 'hashedPassword',
+          fechaRegistro: new Date(),
+          deletedAt: null,
+          rol: 'ADMIN'
       };
 
       (prismaService.user.update as jest.Mock).mockResolvedValue(mockUser);
@@ -92,12 +94,13 @@ describe('UserUpdateService', () => {
       };
 
       const mockUser: User = {
-        id: userId,
-        name: 'John',
-        email: 'existing@example.com',
-        password: 'hashedPassword',
-        fechaRegistro: new Date(),
-        deletedAt: null,
+          id: userId,
+          name: 'John',
+          email: 'existing@example.com',
+          password: 'hashedPassword',
+          fechaRegistro: new Date(),
+          deletedAt: null,
+          rol: 'ADMIN'
       };
 
       (prismaService.user.update as jest.Mock).mockResolvedValue(mockUser);

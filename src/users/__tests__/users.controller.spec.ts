@@ -7,6 +7,7 @@ import { UserDeletionService } from '../services/user-deletion.service';
 import { UserAuthenticationService } from '../services/user-authentication.service';
 import { CreateUserDto } from '../dto/create-user.dto';
 import { UpdateUserDto } from '../dto/update-user.dto';
+import { Role } from '../enums/role.enum';
 
 describe('UsersController', () => {
   let controller: UsersController;
@@ -59,7 +60,8 @@ describe('UsersController', () => {
       const createUserDto: CreateUserDto = {
         email: 'test@example.com',
         password: 'password123',
-        name: 'John'
+        name: 'John',
+        rol: Role.USER
       };
       const expectedResult = {
         id: 'test-id',
@@ -68,7 +70,15 @@ describe('UsersController', () => {
         deletedAt: null
       };
 
-      userCreationService.create.mockResolvedValue(expectedResult);
+    userCreationService.create.mockResolvedValue({
+        id: 'test-id', 
+        name: 'John',
+        email: 'test@example.com',
+        password: 'password123',
+        fechaRegistro: new Date(),
+        deletedAt: null,
+        rol: Role.USER  // Making sure rol is included and not optional
+    });
 
       // Act
       const result = await controller.create(createUserDto);
@@ -89,7 +99,8 @@ describe('UsersController', () => {
           name: 'John',
           password: 'hashedPassword',
           fechaRegistro: new Date(),
-          deletedAt: null
+          deletedAt: null,
+          rol: Role.USER  // Making sure rol is included and not optional
         }],
         total: 1,
         page: 1,
@@ -118,7 +129,8 @@ describe('UsersController', () => {
           name: 'John',
           password: 'hashedPassword',
           fechaRegistro: new Date(),
-          deletedAt: new Date()
+          deletedAt: new Date(),
+          rol: Role.USER  // Making sure rol is included and not optional
         }],
         total: 1,
         page: 1,
@@ -147,7 +159,8 @@ describe('UsersController', () => {
         name: 'John',
         password: 'hashedPassword',
         fechaRegistro: new Date(),
-        deletedAt: null
+        deletedAt: null,
+        rol: Role.USER  // Making sure rol is included and not optional
       };
       userRetrievalService.findOne.mockResolvedValue(expectedResult);
 
@@ -171,7 +184,8 @@ describe('UsersController', () => {
         name: 'John',
         password: 'hashedPassword',
         fechaRegistro: new Date(),
-        deletedAt: null
+        deletedAt: null,
+        rol: Role.USER
       };
       userUpdateService.update.mockResolvedValue(expectedResult);
 

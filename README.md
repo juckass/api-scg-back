@@ -5,9 +5,9 @@
 
 Campos:
 - id: UUID o ID
-- nombre: string
+- name: string
 - email: string (único)
-- contraseña: string (cifrada)
+- password: string (cifrada)
 - fecha_registro: Date
 - rol: enum ('admin', 'usuario')
 Funcionalidades:

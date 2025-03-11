@@ -3,6 +3,7 @@ import { UserAuthenticationService } from '../user-authentication.service';
 import { PrismaService } from '../../../prisma/prisma.service';
 import { LoggerService } from '../../../global/services/logger.service';
 import { User } from '@prisma/client';
+import { Role } from '../../enums/role.enum';
 
 describe('UserAuthenticationService', () => {
   let service: UserAuthenticationService;
@@ -10,12 +11,13 @@ describe('UserAuthenticationService', () => {
   let loggerService: jest.Mocked<LoggerService>;
 
   const mockUser: User = {
-    id: 'test-id',
-    email: 'test@example.com',
-    password: 'hashedPassword',
-    name: 'John',
-    fechaRegistro: new Date(),
-    deletedAt: null,
+      id: 'test-id',
+      email: 'test@example.com',
+      password: 'hashedPassword',
+      name: 'John',
+      fechaRegistro: new Date(),
+      deletedAt: null,
+      rol: 'ADMIN'
   };
 
   beforeEach(async () => {

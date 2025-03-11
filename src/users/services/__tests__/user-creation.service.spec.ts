@@ -7,6 +7,7 @@ import { hash } from 'bcrypt';
 import { User } from '@prisma/client';
 import { v4 as uuidv4 } from 'uuid';
 import { createTestingModule } from '../../../test-setup';
+import { Role } from '../../enums/role.enum';
 
 describe('UserCreationService', () => {
   let service: UserCreationService;
@@ -56,6 +57,7 @@ describe('UserCreationService', () => {
       name: 'Test User',
       fechaRegistro: new Date(),
       deletedAt: null,
+      rol: Role.USER
     };
 
     jest.spyOn(prismaService.user, 'create').mockResolvedValue(user);

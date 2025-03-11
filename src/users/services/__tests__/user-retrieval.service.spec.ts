@@ -4,6 +4,7 @@ import { PrismaService } from '../../../prisma/prisma.service';
 import { LoggerService } from '../../../global/services/logger.service';
 import { PaginationService } from '../../../global/services/pagination.service';
 import { User } from '@prisma/client';
+import { Role } from '../../enums/role.enum';
 
 describe('UserRetrievalService', () => {
   let service: UserRetrievalService;
@@ -12,12 +13,13 @@ describe('UserRetrievalService', () => {
   let paginationService: jest.Mocked<PaginationService>;
 
   const mockUser: User = {
-    id: 'test-id',
-    name: 'John',
-    email: 'john@example.com',
-    password: 'hashedPassword',
-    fechaRegistro: new Date(),
-    deletedAt: null,
+      id: 'test-id',
+      name: 'John',
+      email: 'john@example.com',
+      password: 'hashedPassword',
+      fechaRegistro: new Date(),
+      deletedAt: null,
+      rol: 'ADMIN'
   };
 
   beforeEach(async () => {
