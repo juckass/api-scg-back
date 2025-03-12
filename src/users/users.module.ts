@@ -1,4 +1,4 @@
-import { forwardRef, Module } from '@nestjs/common';
+import { forwardRef, Module, Logger } from '@nestjs/common';
 
 import { UsersController } from './users.controller';
 import { GlobalModule } from '../global/global.module';
@@ -10,8 +10,6 @@ import { UserDeletionService } from './services/user-deletion.service';
 import { UserAuthenticationService } from './services/user-authentication.service';
 import { AuthModule } from "../auth/auth.module";
 
-
-
 @Module({
   imports: [GlobalModule, PrismaModule, forwardRef(() => AuthModule) ],
   controllers: [UsersController],
@@ -21,7 +19,14 @@ import { AuthModule } from "../auth/auth.module";
     UserUpdateService,
     UserDeletionService,
     UserAuthenticationService,
+    Logger,
   ],
-  exports: [UserAuthenticationService],
+  exports: [
+    UserCreationService,
+    UserRetrievalService,
+    UserUpdateService,
+    UserDeletionService,
+    UserAuthenticationService,
+  ],
 })
 export class UsersModule {}

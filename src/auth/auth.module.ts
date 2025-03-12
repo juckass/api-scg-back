@@ -1,9 +1,9 @@
 import { Module, forwardRef } from '@nestjs/common';
 import { JwtModule } from '@nestjs/jwt';
-import { ConfigModule, ConfigService } from '@nestjs/config';
-import { AuthController } from './auth.controller';
+import { ConfigService } from '@nestjs/config';
 import { AuthService } from './services/auth.service';
 import { AuthGuard } from './guard/auth.guard';
+import { AuthController } from './auth.controller';
 import { UsersModule } from '../users/users.module';
 import { TokenBlacklistService } from './services/token-blacklist.service';
 
