@@ -1,7 +1,7 @@
 # api-scg-back
 
 
-1. Módulo de Usuario
+1. Módulo de Usuario ------> LISTO
 
 Campos:
 - id: UUID o ID
@@ -12,7 +12,7 @@ Campos:
 - rol: enum ('admin', 'usuario')
 Funcionalidades:
 - Registro de Usuario: Permite a los usuarios registrarse, ingresando nombre, email y contraseña. ->listo
-- Inicio de sesión: Implementar autenticación con JWT para inicio de sesión. 
+- Inicio de sesión: Implementar autenticación con JWT para inicio de sesión. --> Listo
 - Actualización de Perfil: Permite al usuario actualizar su perfil (nombre, correo). -> listo
 - Gestión de Roles: Los usuarios pueden tener roles diferentes, como 'admin' y 'usuario'. -> Listo
 Recomendaciones:

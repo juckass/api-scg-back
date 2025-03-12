@@ -2,7 +2,7 @@
     "clientName": "Thunder Client",
     "collectionName": "API SCG ",
     "collectionId": "8ef783d2-11b1-4467-825a-de166f3e0d7f",
-    "dateExported": "2025-03-11T21:29:59.057Z",
+    "dateExported": "2025-03-12T03:11:43.294Z",
     "version": "1.2",
     "folders": [
         {
@@ -11,6 +11,13 @@
             "containerId": "",
             "created": "2025-02-17T22:56:12.045Z",
             "sortNum": 10000
+        },
+        {
+            "_id": "15318888-829a-4e93-a150-de74e8fd7ac1",
+            "name": "Auth",
+            "containerId": "",
+            "created": "2025-03-12T00:23:56.560Z",
+            "sortNum": 20000
         }
     ],
     "requests": [
@@ -19,12 +26,23 @@
             "colId": "8ef783d2-11b1-4467-825a-de166f3e0d7f",
             "containerId": "e9d83ac7-4225-4d51-a399-e04df1df796d",
             "name": "Get Users",
-            "url": "http://localhost:3000/users",
+            "url": "http://localhost:3000/users?sdad",
             "method": "GET",
             "sortNum": 20000,
             "created": "2025-02-17T22:56:26.017Z",
-            "modified": "2025-02-17T22:56:50.670Z",
-            "headers": []
+            "modified": "2025-03-12T01:35:29.503Z",
+            "headers": [],
+            "params": [
+                {
+                    "name": "sdad",
+                    "value": "",
+                    "isPath": false
+                }
+            ],
+            "auth": {
+                "type": "bearer",
+                "bearer": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOiI2ZjBmY2RlNC1kOTVmLTQ2YzAtODAwZS04OGM2OGYzNjBkNTUiLCJlbWFpbCI6ImNvcnJlbzI1QGNvcnJlby5jb20iLCJyb2xlIjoiVVNFUiIsImlhdCI6MTc0MTc0MzI5NSwiZXhwIjoxNzQxODI5Njk1fQ.h_I3y5iaHvn_ciun6ZlZ8IDjZIZ-GOJNdMZytZi8W0s"
+            }
         },
         {
             "_id": "9460d635-ec98-4d50-962c-7a3bcb398db2",
@@ -107,7 +125,45 @@
             "created": "2025-02-17T23:45:42.091Z",
             "modified": "2025-02-17T23:46:37.778Z",
             "headers": []
+        },
+        {
+            "_id": "259539ab-8688-485c-ae86-a0d95da3af40",
+            "colId": "8ef783d2-11b1-4467-825a-de166f3e0d7f",
+            "containerId": "15318888-829a-4e93-a150-de74e8fd7ac1",
+            "name": "Login",
+            "url": "http://localhost:3000/auth/login",
+            "method": "POST",
+            "sortNum": 60000,
+            "created": "2025-03-12T00:24:09.093Z",
+            "modified": "2025-03-12T00:32:58.997Z",
+            "headers": [],
+            "body": {
+                "type": "json",
+                "raw": "{\n  \"email\" : \"correo25@correo.com\",\n  \"password\":\"123456\"\n}",
+                "form": []
+            }
+        },
+        {
+            "_id": "99ac5fb0-897d-4cea-9ace-481b6e1f363e",
+            "colId": "8ef783d2-11b1-4467-825a-de166f3e0d7f",
+            "containerId": "15318888-829a-4e93-a150-de74e8fd7ac1",
+            "name": "logout",
+            "url": "http://localhost:3000/auth/logout",
+            "method": "POST",
+            "sortNum": 70000,
+            "created": "2025-03-12T01:26:18.775Z",
+            "modified": "2025-03-12T01:35:37.765Z",
+            "headers": [],
+            "body": {
+                "type": "json",
+                "raw": "{\n  \"email\" : \"correo25@correo.com\",\n  \"password\":\"123456\"\n}",
+                "form": []
+            },
+            "auth": {
+                "type": "bearer",
+                "bearer": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOiI2ZjBmY2RlNC1kOTVmLTQ2YzAtODAwZS04OGM2OGYzNjBkNTUiLCJlbWFpbCI6ImNvcnJlbzI1QGNvcnJlby5jb20iLCJyb2xlIjoiVVNFUiIsImlhdCI6MTc0MTc0MzI5NSwiZXhwIjoxNzQxODI5Njk1fQ.h_I3y5iaHvn_ciun6ZlZ8IDjZIZ-GOJNdMZytZi8W0s"
+            }
         }
     ],
-    "ref": "Iea7CEhTeNUmsgX8tibi9k1D9E6B9Jv_RAScDVU6hXEM2wb8bR13GwdZr-vx94lBC0YnyjA65roEMx-VXs6AkQ"
+    "ref": "Iea7CEhTeNUmsgX8tibi9hHSXkwqDZx-y8b72r95KL0Kx03uDMJL8Tbyp7LC0xFz--Jvm-2gRfwVnL9C1UCiTA"
 }
