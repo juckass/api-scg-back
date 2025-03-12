@@ -7,6 +7,7 @@ import { UserDeletionService } from '../services/user-deletion.service';
 import { UserAuthenticationService } from '../services/user-authentication.service';
 import { CreateUserDto } from '../dto/create-user.dto';
 import { UpdateUserDto } from '../dto/update-user.dto';
+import { NotFoundException, ConflictException } from '@nestjs/common';
 import { Role } from '../enums/role.enum';
 
 describe('UsersController', () => {
@@ -15,107 +16,114 @@ describe('UsersController', () => {
   let userRetrievalService: jest.Mocked<UserRetrievalService>;
   let userUpdateService: jest.Mocked<UserUpdateService>;
   let userDeletionService: jest.Mocked<UserDeletionService>;
-  let userAuthenticationService: jest.Mocked<UserAuthenticationService>;
+
+  const mockUser = {
+    id: 'test-id',
+    email: 'test@example.com',
+    name: 'Test User',
+    password: 'hashedPassword',
+    fechaRegistro: new Date(),
+    deletedAt: null,
+    rol: Role.USER
+  };
+
+  const mockPaginatedResponse = {
+    data: [mockUser],
+    total: 1,
+    page: 1,
+    limit: 10,
+    totalPages: 1,
+    hasMore: false
+  };
 
   beforeEach(async () => {
-    // Create mocks for all services
-    userCreationService = {
+    const serviceMocks = {
       create: jest.fn(),
-    } as any;
-
-    userRetrievalService = {
       findAll: jest.fn(),
       findAllDeleted: jest.fn(),
       findOne: jest.fn(),
-    } as any;
-
-    userUpdateService = {
       update: jest.fn(),
-    } as any;
-
-    userDeletionService = {
       remove: jest.fn(),
       restore: jest.fn(),
-    } as any;
-
-    userAuthenticationService = {} as any;
+    };
 
     const module: TestingModule = await Test.createTestingModule({
       controllers: [UsersController],
       providers: [
-        { provide: UserCreationService, useValue: userCreationService },
-        { provide: UserRetrievalService, useValue: userRetrievalService },
-        { provide: UserUpdateService, useValue: userUpdateService },
-        { provide: UserDeletionService, useValue: userDeletionService },
-        { provide: UserAuthenticationService, useValue: userAuthenticationService },
+        { 
+          provide: UserCreationService, 
+          useValue: { create: serviceMocks.create } 
+        },
+        { 
+          provide: UserRetrievalService, 
+          useValue: { 
+            findAll: serviceMocks.findAll,
+            findAllDeleted: serviceMocks.findAllDeleted,
+            findOne: serviceMocks.findOne
+          } 
+        },
+        { 
+          provide: UserUpdateService, 
+          useValue: { update: serviceMocks.update } 
+        },
+        { 
+          provide: UserDeletionService, 
+          useValue: { 
+            remove: serviceMocks.remove,
+            restore: serviceMocks.restore
+          } 
+        },
+        { 
+          provide: UserAuthenticationService, 
+          useValue: { findByEmail: jest.fn() } 
+        },
       ],
     }).compile();
 
     controller = module.get<UsersController>(UsersController);
+    userCreationService = module.get(UserCreationService);
+    userRetrievalService = module.get(UserRetrievalService);
+    userUpdateService = module.get(UserUpdateService);
+    userDeletionService = module.get(UserDeletionService);
   });
 
   describe('create', () => {
-    it('should create a new user', async () => {
-      // Arrange
-      const createUserDto: CreateUserDto = {
-        email: 'test@example.com',
-        password: 'password123',
-        name: 'John',
-        rol: Role.USER
-      };
-      const expectedResult = {
-        id: 'test-id',
-        ...createUserDto,
-        fechaRegistro: new Date(),
-        deletedAt: null
-      };
+    const createUserDto: CreateUserDto = {
+      email: 'test@example.com',
+      password: 'password123',
+      name: 'Test User',
+    };
 
-    userCreationService.create.mockResolvedValue({
-        id: 'test-id', 
-        name: 'John',
-        email: 'test@example.com',
-        password: 'password123',
-        fechaRegistro: new Date(),
-        deletedAt: null,
-        rol: Role.USER  // Making sure rol is included and not optional
+    it('should create a user successfully', async () => {
+      userCreationService.create.mockResolvedValue(mockUser);
+      const result = await controller.create(createUserDto);
+      expect(result).toEqual(mockUser);
     });
 
-      // Act
-      const result = await controller.create(createUserDto);
-
-      // Assert
-      expect(userCreationService.create).toHaveBeenCalledWith(createUserDto);
-      expect(result).toEqual(expectedResult);
+    it('should handle duplicate email error', async () => {
+      userCreationService.create.mockRejectedValue(
+        new ConflictException('Email already exists')
+      );
+      await expect(controller.create(createUserDto)).rejects.toThrow(ConflictException);
     });
   });
 
   describe('findAll', () => {
-    it('should return paginated users', async () => {
-      // Arrange
-      const expectedResult = {
-        data: [{
-          id: 'test-id',
-          email: 'test@example.com',
-          name: 'John',
-          password: 'hashedPassword',
-          fechaRegistro: new Date(),
-          deletedAt: null,
-          rol: Role.USER  // Making sure rol is included and not optional
-        }],
-        total: 1,
-        page: 1,
-        limit: 10,
-        totalPages: 1,
-        hasMore: false
-      };
-      userRetrievalService.findAll.mockResolvedValue(expectedResult);
-
-      // Act
-      const result = await controller.findAll(1, 10);
-
-      // Assert
+    it('should return paginated users with default pagination', async () => {
+      userRetrievalService.findAll.mockResolvedValue(mockPaginatedResponse);
+      const result = await controller.findAll();
+      expect(result).toEqual(mockPaginatedResponse);
       expect(userRetrievalService.findAll).toHaveBeenCalledWith({ page: 1, limit: 10 });
-      expect(result).toEqual(expectedResult);
+    });
+
+    it('should return paginated users with custom pagination', async () => {
+      userRetrievalService.findAll.mockResolvedValue({
+        ...mockPaginatedResponse,
+        page: 2,
+        limit: 5,
+      });
+      const result = await controller.findAll(2, 5);
+      expect(result).toEqual(expect.objectContaining({ page: 2, limit: 5 }));
     });
   });
 
@@ -130,7 +138,7 @@ describe('UsersController', () => {
           password: 'hashedPassword',
           fechaRegistro: new Date(),
           deletedAt: new Date(),
-          rol: Role.USER  // Making sure rol is included and not optional
+          rol: Role.USER  // Assuming Role is an enum with USER value
         }],
         total: 1,
         page: 1,
@@ -150,83 +158,78 @@ describe('UsersController', () => {
   });
 
   describe('findOne', () => {
-    it('should return a single user', async () => {
-      // Arrange
-      const userId = 'test-id';
-      const expectedResult = {
-        id: userId,
-        email: 'test@example.com',
-        name: 'John',
-        password: 'hashedPassword',
-        fechaRegistro: new Date(),
-        deletedAt: null,
-        rol: Role.USER  // Making sure rol is included and not optional
-      };
-      userRetrievalService.findOne.mockResolvedValue(expectedResult);
+    it('should return a user by id', async () => {
+      userRetrievalService.findOne.mockResolvedValue(mockUser);
+      const result = await controller.findOne('test-id');
+      expect(result).toEqual(mockUser);
+    });
 
-      // Act
-      const result = await controller.findOne(userId);
-
-      // Assert
-      expect(userRetrievalService.findOne).toHaveBeenCalledWith(userId);
-      expect(result).toEqual(expectedResult);
+    it('should throw NotFoundException when user not found', async () => {
+      userRetrievalService.findOne.mockRejectedValue(
+        new NotFoundException('User not found')
+      );
+      await expect(controller.findOne('non-existent')).rejects.toThrow(NotFoundException);
     });
   });
 
   describe('update', () => {
-    it('should update a user', async () => {
-      // Arrange
-      const userId = 'test-id';
-      const updateUserDto: UpdateUserDto = { name: 'Updated' };
-      const expectedResult = {
-        id: userId,
-        email: 'test@example.com',
-        name: 'John',
-        password: 'hashedPassword',
-        fechaRegistro: new Date(),
-        deletedAt: null,
-        rol: Role.USER
-      };
-      userUpdateService.update.mockResolvedValue(expectedResult);
+    const updateUserDto: UpdateUserDto = {
+      name: 'Updated Name',
+    };
 
-      // Act
-      const result = await controller.update(userId, updateUserDto);
+    it('should update user successfully', async () => {
+      const updatedUser = { ...mockUser, ...updateUserDto };
+      userUpdateService.update.mockResolvedValue(updatedUser);
+      const result = await controller.update('test-id', updateUserDto);
+      expect(result).toEqual(updatedUser);
+    });
 
-      // Assert
-      expect(userUpdateService.update).toHaveBeenCalledWith(userId, updateUserDto);
-      expect(result).toEqual(expectedResult);
+    it('should throw NotFoundException when updating non-existent user', async () => {
+      userUpdateService.update.mockRejectedValue(
+        new NotFoundException('User not found')
+      );
+      await expect(controller.update('non-existent', updateUserDto)).rejects.toThrow(
+        NotFoundException
+      );
     });
   });
 
   describe('remove', () => {
-    it('should soft delete a user', async () => {
-      // Arrange
-      const userId = 'test-id';
-      const expectedResult = { message: 'User deleted successfully' };
-      userDeletionService.remove.mockResolvedValue(expectedResult);
+    it('should soft delete user successfully', async () => {
+      userDeletionService.remove.mockResolvedValue({ 
+        message: 'User deleted successfully' 
+      });
+      
+      const result = await controller.remove('test-id');
+      expect(result).toEqual({ message: 'User deleted successfully' });
+    });
 
-      // Act
-      const result = await controller.remove(userId);
-
-      // Assert
-      expect(userDeletionService.remove).toHaveBeenCalledWith(userId);
-      expect(result).toEqual(expectedResult);
+    it('should throw NotFoundException when deleting non-existent user', async () => {
+      userDeletionService.remove.mockRejectedValue(
+        new NotFoundException('User not found')
+      );
+      await expect(controller.remove('non-existent')).rejects.toThrow(NotFoundException);
     });
   });
 
   describe('restore', () => {
-    it('should restore a deleted user', async () => {
-      // Arrange
-      const userId = 'test-id';
-      const expectedResult = { message: 'User restored successfully' };
-      userDeletionService.restore.mockResolvedValue(expectedResult);
+    it('should restore deleted user successfully', async () => {
+      const restoredUser = { ...mockUser, deletedAt: null };
+      userDeletionService.restore.mockResolvedValue({ 
+        message: 'User restored successfully' 
+      });
+      
+      const result = await controller.restore('test-id');
+      expect(result).toEqual({ message: 'User restored successfully' });
+    });
 
-      // Act
-      const result = await controller.restore(userId);
-
-      // Assert
-      expect(userDeletionService.restore).toHaveBeenCalledWith(userId);
-      expect(result).toEqual(expectedResult);
+    it('should throw NotFoundException when restoring non-existent user', async () => {
+      userDeletionService.restore.mockRejectedValue(
+        new NotFoundException('User not found')
+      );
+      await expect(controller.restore('non-existent')).rejects.toThrow(
+        NotFoundException
+      );
     });
   });
 });

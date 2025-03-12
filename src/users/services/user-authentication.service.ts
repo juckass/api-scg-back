@@ -10,15 +10,10 @@ export class UserAuthenticationService {
     private readonly logger: LoggerService,
   ) {}
 
-  async findByEmail(email: string): Promise<User | { error: string }> {
+  async findByEmail(email: string): Promise<User | undefined> {
     const user = await this.prisma.user.findUnique({ where: { email } });
-
-    if (!user) {
-      await this.logger.error(`User with email ${email} not found`);
-      return { error: `User not found` };
-    }
-
-    return this.removePassword(user);
+    return user;
+  
   }
 
   private removePassword(user: User) {

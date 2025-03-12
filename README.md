@@ -11,10 +11,10 @@ Campos:
 - fecha_registro: Date
 - rol: enum ('admin', 'usuario')
 Funcionalidades:
-- Registro de Usuario: Permite a los usuarios registrarse, ingresando nombre, email y contraseña.
-- Inicio de sesión: Implementar autenticación con JWT para inicio de sesión.
-- Actualización de Perfil: Permite al usuario actualizar su perfil (nombre, correo).
-- Gestión de Roles: Los usuarios pueden tener roles diferentes, como 'admin' y 'usuario'.
+- Registro de Usuario: Permite a los usuarios registrarse, ingresando nombre, email y contraseña. ->listo
+- Inicio de sesión: Implementar autenticación con JWT para inicio de sesión. 
+- Actualización de Perfil: Permite al usuario actualizar su perfil (nombre, correo). -> listo
+- Gestión de Roles: Los usuarios pueden tener roles diferentes, como 'admin' y 'usuario'. -> Listo
 Recomendaciones:
 - Seguridad: Usar bcrypt para cifrar las contraseñas.
 - Implementar middleware para verificar la autenticación en las rutas protegidas.
