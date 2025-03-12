@@ -1,4 +1,4 @@
-import { Module } from '@nestjs/common';
+import { forwardRef, Module, Logger } from '@nestjs/common';
 
 import { UsersController } from './users.controller';
 import { GlobalModule } from '../global/global.module';
@@ -8,11 +8,20 @@ import { UserRetrievalService } from './services/user-retrieval.service';
 import { UserUpdateService } from './services/user-update.service';
 import { UserDeletionService } from './services/user-deletion.service';
 import { UserAuthenticationService } from './services/user-authentication.service';
+import { AuthModule } from "../auth/auth.module";
 
 @Module({
-  imports: [GlobalModule, PrismaModule],
+  imports: [GlobalModule, PrismaModule, forwardRef(() => AuthModule) ],
   controllers: [UsersController],
   providers: [
+    UserCreationService,
+    UserRetrievalService,
+    UserUpdateService,
+    UserDeletionService,
+    UserAuthenticationService,
+    Logger,
+  ],
+  exports: [
     UserCreationService,
     UserRetrievalService,
     UserUpdateService,

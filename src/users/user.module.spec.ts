@@ -8,6 +8,7 @@ import { UserRetrievalService } from './services/user-retrieval.service';
 import { UserUpdateService } from './services/user-update.service';
 import { UserDeletionService } from './services/user-deletion.service';
 import { UserAuthenticationService } from './services/user-authentication.service';
+import { Logger } from '@nestjs/common';
 
 describe('UsersModule', () => {
   let module: TestingModule;
@@ -20,6 +21,16 @@ describe('UsersModule', () => {
   beforeEach(async () => {
     module = await Test.createTestingModule({
       imports: [UsersModule, GlobalModule, PrismaModule],
+      providers: [
+        {
+          provide: Logger,
+          useValue: {
+            error: jest.fn(),
+            log: jest.fn(),
+            warn: jest.fn(),
+          },
+        },
+      ],
     }).compile();
 
     userCreationService = module.get<UserCreationService>(UserCreationService);

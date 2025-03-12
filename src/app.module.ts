@@ -4,6 +4,7 @@ import { HttpExceptionFilter } from './filters/http-exception.filter'; // Ruta c
 import { GlobalModule } from './global/global.module';
 import { ConfigModule } from '@nestjs/config';
 import { PrismaModule } from './prisma/prisma.module';
+import { AuthModule } from './auth/auth.module';
 import { UsersModule } from './users/users.module';
 
 @Module({
@@ -13,6 +14,7 @@ import { UsersModule } from './users/users.module';
     }),
     GlobalModule,
     PrismaModule,
+    AuthModule,
     UsersModule,
   ],
   controllers: [],
