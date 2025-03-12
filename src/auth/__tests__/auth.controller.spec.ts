@@ -4,6 +4,9 @@ import { AuthService } from '../services/auth.service';
 import { TokenBlacklistService } from '../services/token-blacklist.service';
 import { SignInUserDto } from '../dto/sign-in-user.dto';
 import { UnauthorizedException } from '@nestjs/common';
+import { JwtService } from '@nestjs/jwt';
+import { ConfigService } from '@nestjs/config';
+import { AuthGuard } from '../guard/auth.guard';
 
 describe('AuthController', () => {
   let controller: AuthController;
@@ -32,6 +35,20 @@ describe('AuthController', () => {
           provide: TokenBlacklistService,
           useValue: tokenBlacklistService,
         },
+        {
+          provide: JwtService,
+          useValue: {
+            sign: jest.fn(),
+            verify: jest.fn(),
+          },
+        },
+        {
+          provide: ConfigService,
+          useValue: {
+            get: jest.fn(),
+          },
+        },
+        AuthGuard,
       ],
     }).compile();
 

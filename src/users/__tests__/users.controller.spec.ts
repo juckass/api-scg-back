@@ -9,6 +9,10 @@ import { CreateUserDto } from '../dto/create-user.dto';
 import { UpdateUserDto } from '../dto/update-user.dto';
 import { NotFoundException, ConflictException } from '@nestjs/common';
 import { Role } from '../enums/role.enum';
+import { JwtService } from '@nestjs/jwt';
+import { ConfigService } from '@nestjs/config';
+import { TokenBlacklistService } from '../../auth/services/token-blacklist.service';
+import { AuthGuard } from '../../auth/guard/auth.guard';
 
 describe('UsersController', () => {
   let controller: UsersController;
@@ -77,6 +81,27 @@ describe('UsersController', () => {
           provide: UserAuthenticationService, 
           useValue: { findByEmail: jest.fn() } 
         },
+        {
+          provide: JwtService,
+          useValue: {
+            sign: jest.fn(),
+            verify: jest.fn(),
+          },
+        },
+        {
+          provide: ConfigService,
+          useValue: {
+            get: jest.fn(),
+          },
+        },
+        {
+          provide: TokenBlacklistService,
+          useValue: {
+            add: jest.fn(),
+            has: jest.fn(),
+          },
+        },
+        AuthGuard,
       ],
     }).compile();
 
