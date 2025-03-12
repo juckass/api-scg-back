@@ -1,15 +1,13 @@
-import { Controller, Get, Post, Body, Patch, Param, Delete, Query,UseGuards  } from '@nestjs/common';
+import { Controller, Get, Post, Body, Patch, Param, Delete, Query, UseGuards } from '@nestjs/common';
 import { CreateUserDto } from './dto/create-user.dto';
 import { UpdateUserDto } from './dto/update-user.dto';
-import { ApiBearerAuth, ApiTags } from '@nestjs/swagger';
+import { ApiBearerAuth, ApiTags, ApiBody } from '@nestjs/swagger';
 import { UserCreationService } from './services/user-creation.service';
 import { UserRetrievalService } from './services/user-retrieval.service';
 import { UserUpdateService } from './services/user-update.service';
 import { UserDeletionService } from './services/user-deletion.service';
 import { UserAuthenticationService } from './services/user-authentication.service';
 import { AuthGuard } from '../auth/guard/auth.guard';
-
-
 
 @ApiBearerAuth()
 @ApiTags('users')
@@ -24,6 +22,20 @@ export class UsersController {
   ) {}
 
   @Post()
+  @ApiBody({
+    description: 'Datos necesarios para crear un nuevo usuario',
+    type: CreateUserDto,
+    examples: {
+      example1: {
+        summary: 'Ejemplo de usuario',
+        value: {
+          username: 'johndoe',
+          email: 'johndoe@example.com',
+          password: 'password123',
+        },
+      },
+    },
+  })
   create(@Body() createUserDto: CreateUserDto) {
     return this.userCreationService.create(createUserDto);
   }
@@ -54,6 +66,19 @@ export class UsersController {
 
   @UseGuards(AuthGuard)
   @Patch(':id')
+  @ApiBody({
+    description: 'Datos necesarios para actualizar un usuario',
+    type: UpdateUserDto,
+    examples: {
+      example1: {
+        summary: 'Ejemplo de actualización de usuario',
+        value: {
+          username: 'johnupdated',
+          email: 'johnupdated@example.com',
+        },
+      },
+    },
+  })
   update(@Param('id') id: string, @Body() updateUserDto: UpdateUserDto) {
     return this.userUpdateService.update(id, updateUserDto);
   }

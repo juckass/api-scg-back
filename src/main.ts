@@ -31,6 +31,7 @@ async function bootstrap() {
     .setDescription('The api for the NestJS SCG project')
     .setVersion('1.0')
     .addTag('users')
+    .addTag('auth')
     .build();
 
   const documentFactory = () => SwaggerModule.createDocument(app, config);
